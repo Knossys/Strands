@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.logging.Logger;
 
 import com.knossys.rnd.lang.string.KSimpleFeatureMaker;
+import com.knossys.rnd.strands.KStrand;
 
 /**
  * @author vvelsen
@@ -16,6 +17,12 @@ public class KStrandsProcessor {
 	private KSimpleFeatureMaker featureMaker=new KSimpleFeatureMaker ();
 	
 	private ArrayList <List<String>>history=new ArrayList<List<String>>();
+
+	private ArrayList<KStrand> strands=new ArrayList<KStrand>();
+	
+  private KStrandTracker strandTracker=new KStrandTracker ();
+  
+  private KStrandMatcher strandMatcher=new KStrandMatcher (strands);
 	
 	/**
 	 * @param s
@@ -28,5 +35,16 @@ public class KStrandsProcessor {
     featureMaker.show(tokens);
 		
 		history.add(tokens);
+		
+		KStrand match=strandMatcher.match(tokens);
+		
+		strandTracker.switchTo(match);
+	}
+
+	/**
+	 * @return
+	 */
+	public ArrayList<KStrand> getStrands() {
+		return strands;
 	}
 }
